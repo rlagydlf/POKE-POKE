@@ -85,9 +85,10 @@ export default function Encyclopedia({ userData }) {
     return p.types.includes(filter)
   })
 
-  const filtered = typeFiltered.filter((id) =>
-    matchesSearch(id, pokemonMap[id], searchQuery),
-  )
+  const filtered = typeFiltered.filter((id) => {
+    if (searchQuery.trim() && !collected.includes(id)) return false
+    return matchesSearch(id, pokemonMap[id], searchQuery)
+  })
 
   const caught = collected.length
   const percent = ((caught / TOTAL_POKEMON) * 100).toFixed(1)
@@ -112,7 +113,7 @@ export default function Encyclopedia({ userData }) {
         <input
           type="search"
           className="encyclopedia-search-input"
-          placeholder="이름 또는 번호로 검색 (예: 피카츄, 25)"
+          placeholder="획득한 포켓몬만 검색 (예: 피카츄, 25)"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -196,7 +197,7 @@ export default function Encyclopedia({ userData }) {
       {searchQuery.trim() && filtered.length === 0 && !loading && (
         <div className="empty-collection">
           <p>검색 결과가 없어요.</p>
-          <span>다른 이름이나 번호로 다시 검색해보세요.</span>
+          <span>획득한 포켓몬만 검색됩니다. 다른 이름이나 번호로 다시 시도해보세요.</span>
         </div>
       )}
 
