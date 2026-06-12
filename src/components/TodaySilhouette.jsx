@@ -304,6 +304,7 @@ export default function TodaySilhouette({ userData, onComplete, onFail }) {
 
               <div className="success-message">
                 <p>{roundIsShiny ? `✨ 이로치 ${pokemon.name}를 획득했습니다!` : `🎉 ${pokemon.name}를 획득했습니다!`}</p>
+                <p>🎉 {pokemon.name}이(가) 도감에 등록되었습니다!</p>
                 {canPlayMore ? (
                   <span>아직 오늘 {MAX_SILHOUETTE_PER_DAY - liveState.attempts}번 더 도전할 수 있어요!</span>
                 ) : (
