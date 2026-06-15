@@ -1,16 +1,128 @@
-# React + Vite
+# 포케포케 (POKE-POKE)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+매일 퀴즈와 실루엣 맞히기로 포켓몬을 수집하는 웹 도감 게임입니다.  
+[PokéAPI](https://pokeapi.co/)에서 포켓몬 데이터를 가져오며, 진행 상황은 브라우저 `localStorage`에 저장됩니다.
 
-Currently, two official plugins are available:
+## 시연 흐름 영상
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+https://github.com/user-attachments/assets/f48dc93a-cf6f-476d-8eaa-feb5fd693bdb
 
-## React Compiler
+## 주요 기능
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 홈
+- 오늘의 도전(실루엣 · 퀴즈) 바로가기
+- 수집 진행률과 최근 획득 포켓몬 미리보기
 
-## Expanding the ESLint configuration
+### 오늘의 실루엣
+- 포켓몬 실루엣만 보고 정답을 맞히는 일일 챌린지
+- 하루 최대 2회 도전
+- 객관식 · 주관식 모드 지원
+- 정답 시 도감에 포켓몬 등록, 낮은 확률로 **이로치** 획득 가능
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 포켓몬 퀴즈
+카테고리별 랜덤 2문제에 도전합니다.
+
+| 카테고리 | 설명 |
+|----------|------|
+| 포켓몬 관련 상식 | 타입 상성, 진화, 세대, 체중/키 등 |
+| 타입 퀴즈 | 단일 타입 객관식 · 이중 타입 주관식 |
+| 울음소리 퀴즈 | 울음소리로 포켓몬 맞히기 |
+| 설정 · 비하인드 | 도감 설명, 분류, 색 등 |
+
+- 퀴즈 도중 다른 화면으로 이동하면 해당 카테고리는 이어 풀 수 없음
+- 정답 시 포켓몬 획득, 이로치 확률 적용
+
+### 내 포켓몬 도감
+- 1세대~9세대, 총 **1,025마리** 수집
+- 이름 · 번호 · 타입 · 세대별 필터
+- 일반 / 이로치 폼 구분 표시
+- 포켓몬 상세 정보(스탯, 진화, 도감 설명 등) 확인
+
+### 기타
+- 연속 방문 **스트릭** 기록
+- 퀴즈 점수 누적
+- 이로치 확률: **1 / 200**
+
+## 기술 스택
+
+- **React 19** + **Vite 8**
+- **React Router 7**
+- **PokéAPI** (포켓몬 데이터 · 스프라이트 · 울음소리)
+- **localStorage** (유저 진행 데이터)
+
+## 시작하기
+
+### 요구 사항
+
+- Node.js 18 이상 권장
+- Yarn 또는 npm
+
+### 설치
+
+```bash
+yarn install
+# 또는
+npm install
+```
+
+### 개발 서버 실행
+
+```bash
+yarn dev
+# 또는
+npm run dev
+```
+
+브라우저에서 Vite가 안내하는 로컬 주소(기본 `http://localhost:5173`)로 접속합니다.
+
+### 빌드 · 미리보기
+
+```bash
+yarn build
+yarn preview
+```
+
+### 린트
+
+```bash
+yarn lint
+```
+
+## 프로젝트 구조
+
+```
+src/
+├── components/       # UI 컴포넌트 (홈, 퀴즈, 실루엣, 도감 등)
+├── hooks/            # useUserData 등 커스텀 훅
+├── services/         # PokéAPI 연동, 퀴즈 생성
+└── utils/            # 저장소, 타입 상성, 이로치, 메타데이터
+```
+
+## 데이터 저장
+
+유저 데이터는 `localStorage` 키 `pokepoke_user`에 저장됩니다.
+
+- 수집한 포켓몬 (일반 / 이로치)
+- 점수, 스트릭
+- 실루엣 · 퀴즈 일일 진행 상태
+
+브라우저 데이터를 삭제하면 진행 상황도 초기화됩니다.
+
+## 라우트
+
+| 경로 | 화면 |
+|------|------|
+| `/` | 홈 |
+| `/silhouette` | 오늘의 실루엣 |
+| `/quiz` | 포켓몬 퀴즈 |
+| `/dogam` | 내 포켓몬 도감 |
+
+## 외부 API
+
+이 프로젝트는 [PokéAPI](https://pokeapi.co/)를 사용합니다.  
+네트워크 연결이 필요하며, API 응답은 앱 내에서 캐시됩니다.
+
+## 라이선스
+
+이 프로젝트는 개인 학습·취미용입니다.  
+포켓몬 및 관련 자산은 © Nintendo / Creatures Inc. / GAME FREAK inc. 소유입니다.
